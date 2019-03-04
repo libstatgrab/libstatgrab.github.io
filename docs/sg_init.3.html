@@ -1,0 +1,33 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_init</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_init"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_init, sg_snapshot, sg_shutdown, sg_drop_privileges &#8212; initialise libstatgrab</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_init</b>(</code></td><td><var class="pdparam">ignore_init_errors</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>int <var class="pdparam">ignore_init_errors</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_snapshot</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_shutdown</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_drop_privileges</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm32"></a><h2>Description</h2><p>
+      <code class="function">sg_init</code>() either initialises the statgrab
+      library and sets the initialisation counter to 1, if not already done,
+      or increases the initialisation counter.
+      If called for the first time (in fact: if called when the initialisation
+      counter is 0), the constructor (initialisation routine) of each
+      registered component is invoked, some global variables are
+      initialised, requested mutual exclusion semaphores are initialised
+      and so on.
+      <code class="function">sg_init</code>() is protected by the mutex named
+      "statgrab".
+    </p><p>
+      <code class="function">sg_snapshot</code>() is Win32 only and will probably disappear.
+    </p><p>
+      <code class="function">sg_shutdown</code>() decrements the initialisation
+      counter. If the counter reaches zero, components' destructors are
+      called, mutual exclusion semaphores (exept "statgrab") are
+      destroyed etc.
+      <code class="function">sg_shutdown</code>() is protected by the mutex named
+      "statgrab".
+    </p><p>
+      <code class="function">sg_drop_privileges</code>() drops elevated privileges.
+    </p></div><div class="refsect1"><a name="idm44"></a><h2>Return values</h2><p>
+      All functions return a statgrab error code. Either
+      <span class="errorcode">SG_ERROR_NONE</span> when everything was ok or the
+      appropriate error code from an constructor/destructor.
+    </p></div><div class="refsect1"><a name="idm48"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm55"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

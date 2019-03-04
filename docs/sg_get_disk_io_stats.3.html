@@ -1,0 +1,108 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_disk_io_stats</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_disk_io_stats"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_disk_io_stats, sg_get_disk_io_stats_r, sg_get_disk_io_stats_diff, sg_get_disk_io_stats_diff_between, sg_free_disk_io_stats, sg_disk_io_compare_name, sg_disk_io_compare_traffic &#8212; get disk io statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_disk_io_stats *<b class="fsfunc">sg_get_disk_io_stats</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_disk_io_stats *<b class="fsfunc">sg_get_disk_io_stats_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_disk_io_stats *<b class="fsfunc">sg_get_disk_io_stats_diff</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_disk_io_stats *<b class="fsfunc">sg_get_disk_io_stats_diff_between</b>(</code></td><td><var class="pdparam">cur</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">last</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const sg_disk_io_stats *<var class="pdparam">cur</var></code>;<br><code>const sg_disk_io_stats *<var class="pdparam">last</var></code>;<br><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_disk_io_stats</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_disk_io_stats *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">int <b class="fsfunc">sg_disk_io_compare_name</b>(</code></td><td><var class="pdparam">va</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">vb</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const void *<var class="pdparam">va</var></code>;<br><code>const void *<var class="pdparam">vb</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">int <b class="fsfunc">sg_disk_io_compare_traffic</b>(</code></td><td><var class="pdparam">va</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">vb</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const void *<var class="pdparam">va</var></code>;<br><code>const void *<var class="pdparam">vb</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm61"></a><h2>Description</h2><p>
+      The <code class="function">sg_get_disk_io_stats</code> functions provide disk
+      I/O statistics on a per disk basis. All get- and diff-functions take
+      an optional <em class="parameter"><code>entries</code></em> parameter, which points
+      (when given) to a size_t to take the number of returned vector
+      entries.
+    </p><p>
+      The <code class="function">sg_get_disk_io_stats</code>() and
+      <code class="function">sg_get_disk_io_stats_r</code>() functions deliver the
+      I/O-statistics since the disk has been attached to the system.
+      The <code class="function">sg_get_disk_io_stats_diff</code>() and
+      <code class="function">sg_get_disk_io_stats_diff_between</code>() deliver the
+      difference between two calls of
+      <code class="function">sg_get_disk_io_stats</code>() or
+      <code class="function">sg_get_disk_io_stats_r</code>(), respectively.
+    </p><p>
+      </p><div class="table"><a name="idm74"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_disk_io_stats</td><td align="left">sg_disk_io_stats *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_disk_io_stats_r</td><td align="left">sg_disk_io_stats *</td><td align="left">caller</td></tr><tr><td align="left">sg_get_disk_io_stats_diff</td><td align="left">sg_disk_io_stats *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_disk_io_stats_diff_between</td><td align="left">sg_disk_io_stats *</td><td align="left">caller</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      <span class="structname">sg_disk_io_stats</span> vectors got from
+      <code class="function">sg_get_disk_io_stats_r</code>() or
+      <code class="function">sg_get_disk_io_stats_diff_between</code>() must be
+      freed using <code class="function">sg_free_disk_io_stats</code>() when
+      not needed any more. The caller is responsible for doing it.
+    </p><p>
+      Additionally two support functions for <code class="function">qsort</code>(3)
+      are available: <code class="function">sg_disk_io_compare_name</code>() and
+      <code class="function">sg_disk_io_compare_traffic</code>().
+      </p><div class="example"><a name="idm111"></a><p class="title"><b>Example 1. Example</b></p><div class="example-contents"><pre class="programlisting">
+size_t entries;
+sg_disk_io_stats *io_stats = NULL;
+while( NULL != ( io_stats = sg_get_disk_io_stats_diff(&amp;entries) ) ) {
+    /* show disks with most traffic first */
+    qsort( io_stats, entries, sizeof(io_stats[0]), &amp;sg_disk_io_compare_traffic );
+    show_disk_io_stats( io_stats );
+}
+        </pre></div></div><p><br class="example-break">
+    </p><p>
+      On some platforms, such as Solaris 7, the kernel value is stored in
+      a 32bit int, so wraps around when it reaches 4GB. Other platforms,
+      such as Solaris 8 (and most other modern systems), hold the value in
+      a 64bit int, which wraps somewhere near 17 million terabytes.
+      The <code class="function">sg_get_disk_io_stats_diff</code>() function and
+      the <code class="function">sg_get_disk_io_stats_diff_between</code>()
+      function care about these overflows and try to detect overflows
+      when the diff is calculated.
+    </p><p>
+      On Solaris libstatgrab will attempt to get the cXtXdXsX
+      representation for the <code class="varname">disk_name</code> string. If
+      it fails it will use a name like sd0. On some systems programs
+      calling libstatgrab will need elevated privileges to lookup
+      some of the names. The mappings are built up when
+      <code class="function">sg_init</code>() is called for the first time.
+    </p></div><div class="refsect1"><a name="idm120"></a><h2>Return Values</h2><p>
+      All diskio statistics return a pointer to a structure of type
+      <span class="structname">sg_disk_io_stats</span>.
+    </p><pre class="programlisting">
+typedef struct {
+        char *disk_name;
+        unsigned long long read_bytes;
+        unsigned long long write_bytes;
+        time_t systime;
+} sg_disk_io_stats;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <em class="structfield"><code>disk_name</code></em>
+        </span></dt><dd><p>
+            The name known to the operating system.
+            (eg. on linux it might be hda)
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>read_bytes</code></em>
+        </span></dt><dd><p>
+            The number of bytes the disk has read.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>write_bytes</code></em>
+        </span></dt><dd><p>
+            The number of bytes the disk has written.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>systime</code></em>
+        </span></dt><dd><p>
+            The time period over which <em class="parameter"><code>read_bytes</code></em>
+            and <em class="parameter"><code>write_bytes</code></em> were transferred.
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm148"></a><h2>Bugs</h2><p>
+      <code class="function">sg_get_disk_io_stats_diff</code> and
+      <code class="function">sg_get_disk_io_stats_diff_between</code> compare two
+      lists of disk (block device) related I/O statistics. Each entry
+      occurring only in the second list is passed through to the resulting
+      list as if it would have been compared to an entry with all statistic
+      values set to 0. This implies, on the very first call
+      <code class="function">sg_get_disk_io_stats_diff</code> will return the same
+      as <code class="function">sg_get_disk_io_stats</code>.
+    </p><p>
+      On operating systems that hold only 32bits of data there is a
+      problem if the values wrap twice. For example, on Solaris 7 if
+      9GB is transferred and the operating system wraps at 4GB, the
+      <code class="function">sg_get_disk_io_stats_diff</code>() function will return
+      5GB.
+    </p><p>
+      The compare functions exists rather for backward compatibility than
+      for functionality enhancements. Limited flexibility (e.g. reverse
+      order) and lack of optimising opportunities for the compiler leads
+      to the recommendation to implement the required compare routines
+      locally.
+    </p></div><div class="refsect1"><a name="idm158"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm165"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

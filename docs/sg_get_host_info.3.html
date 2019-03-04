@@ -1,0 +1,59 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_host_info</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_host_info"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_host_info, sg_get_host_info_r, sg_free_host_info &#8212; get general operating system statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_host_info *<b class="fsfunc">sg_get_host_info</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_host_info *<b class="fsfunc">sg_get_host_info_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_host_info</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_host_info *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm29"></a><h2>Description</h2><p>
+      These calls return details on the operating system and the machine
+      it's running on.
+    </p><p>
+      </p><div class="table"><a name="idm33"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_host_info</td><td align="left"><span class="structname">sg_host_info</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_host_info_r</td><td align="left"><span class="structname">sg_host_info</span> *</td><td align="left">caller</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      The <span class="structname">sg_host_info</span> buffer received from
+      <code class="function">sg_get_host_info_r</code>() must be freed using
+      <code class="function">sg_free_host_info</code>() when not needed any more. The
+      caller is responsible for doing it.
+    </p></div><div class="refsect1"><a name="idm59"></a><h2>Return Values</h2><p>
+      The structure returned is of type
+      <span class="structname">sg_host_info</span>.
+    </p><pre class="programlisting">
+typedef enum {
+        sg_unknown_configuration = 0,
+        sg_physical_host,
+        sg_virtual_machine,
+        sg_paravirtual_machine,
+        sg_hardware_virtualized
+} sg_host_state;
+    </pre><pre class="programlisting">
+typedef struct{
+        char *os_name;
+        char *os_release;
+        char *os_version;
+        char *platform;
+        char *hostname;
+        unsigned bitwidth;
+        sg_host_state host_state;
+        unsigned ncpus;
+        unsigned maxcpus;
+        time_t uptime;
+        time_t systime;
+}sg_host_info;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term"><em class="structfield"><code>os_name</code></em></span></dt><dd><p>
+            The operating system name.
+            (eg. SunOS or Linux)
+          </p></dd><dt><span class="term"><em class="structfield"><code>os_release</code></em></span></dt><dd><p>
+            The operating system release.
+            (eg. 5.8 or 5.9 or Solaris)
+          </p></dd><dt><span class="term"><em class="structfield"><code>os_version</code></em></span></dt><dd><p>
+            The version level of the OS.
+          </p></dd><dt><span class="term"><em class="structfield"><code>platform</code></em></span></dt><dd><p>
+            The hardware platform (architecture) the OS runs on.
+          </p></dd><dt><span class="term"><em class="structfield"><code>hostname</code></em></span></dt><dd><p>
+            The name of the machine.
+          </p></dd><dt><span class="term"><em class="structfield"><code>uptime</code></em></span></dt><dd><p>
+            The uptime of the machine in seconds.
+          </p></dd><dt><span class="term"><em class="structfield"><code>systime</code></em></span></dt><dd><p>
+            The timestamp when the above stats where collected in seconds
+            since epoch
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm101"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm108"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

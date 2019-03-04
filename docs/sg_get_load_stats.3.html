@@ -1,0 +1,39 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_load_stats</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_load_stats"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_load_stats, sg_get_load_stats_r, sg_free_load_stats &#8212; get system load</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_load_stats *<b class="fsfunc">sg_get_load_stats</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_load_stats *<b class="fsfunc">sg_get_load_stats_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_load_stats</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_load_stats *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm29"></a><h2>Description</h2><p>
+      These calls returns a pointer to a buffer containing information
+      about cumulated machine load.
+    </p><p>
+      </p><div class="table"><a name="idm33"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_load_stats</td><td align="left"><span class="structname">sg_load_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_load_stats_r</td><td align="left"><span class="structname">sg_load_stats</span> *</td><td align="left">caller</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      The <span class="structname">sg_load_stats</span> buffer received from
+      <code class="function">sg_get_load_stats_r</code>() must be freed using
+      <code class="function">sg_free_load_stats</code>() when not needed any more. The
+      caller is responsible for doing it.
+    </p><p>
+      On most systems this function is just a wrapper to the
+      <code class="function">getloadavg</code> system call.
+    </p></div><div class="refsect1"><a name="idm61"></a><h2>Return Values</h2><p>
+      The structure returned is of type
+      <span class="structname">sg_load_stats</span>.
+    </p><pre class="programlisting">
+typedef struct{
+        double min1;
+        double min5;
+        double min15;
+        time_t systime;
+}sg_load_stats;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term"><em class="structfield"><code>min1</code></em></span></dt><dd><p>
+            The load average over 1 minute.
+          </p></dd><dt><span class="term"><em class="structfield"><code>min5</code></em></span></dt><dd><p>
+            The load average over 5 minutes.
+          </p></dd><dt><span class="term"><em class="structfield"><code>min15</code></em></span></dt><dd><p>
+            The load average over 15 minutes.
+          </p></dd><dt><span class="term"><em class="structfield"><code>systime</code></em></span></dt><dd><p>
+            The timestamp when the above stats where collected in seconds
+            since epoch
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm87"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm94"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

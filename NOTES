@@ -1,0 +1,13 @@
+The docs are statically generated using the script here:
+
+https://github.com/tdb/libstatgrab/blob/htmlmanpages/docs/genhtml.sh
+
+And then copied in to place in this repository. This sucks, but GitHub
+Pages isn't flexible enough to permit building them on the fly. If GitLab
+can sort their LetsEncrypt automation then maybe there is a better place
+for this site.
+
+The favicon (and organisation logo) were generating using the below site:
+
+https://favicon.io/favicon-generator/?t=LSG&ff=Abel&fs=75&fc=%23FFFFFF&b=rounded&bc=%23373737
+https://favicon.io/favicon-generator/?t=LSG&ff=Roboto+Slab&fs=60&fc=%23FFFFFF&b=rounded&bc=%23209CEE

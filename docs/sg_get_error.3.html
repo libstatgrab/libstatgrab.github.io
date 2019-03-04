@@ -1,0 +1,73 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_error</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_error"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_error, sg_get_error_arg, sg_get_error_errno, sg_str_error, sg_get_error_details, sg_strperror &#8212; get last error status</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_get_error</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">const char *<b class="fsfunc">sg_get_error_arg</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">int <b class="fsfunc">sg_get_error_errno</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_get_error_details</b>(</code></td><td><var class="pdparam">err_details</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_error_details *<var class="pdparam">err_details</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">const char *<b class="fsfunc">sg_str_error</b>(</code></td><td><var class="pdparam">code</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_error <var class="pdparam">code</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">char *<b class="fsfunc">sg_strperror</b>(</code></td><td><var class="pdparam">buf</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">err_details</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>char **<var class="pdparam">buf</var></code>;<br><code>const sg_error_details * const <var class="pdparam">err_details</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm46"></a><h2>Description</h2><p>
+      There are four functions to get information about the last occurred
+      error: <code class="function">sg_get_error</code>,
+      <code class="function">sg_get_error_arg</code>,
+      <code class="function">sg_get_error_errno</code> and
+      <code class="function">sg_get_error_details</code>. The remaining
+      functions are intended to improve the machine-human-interface (e.g.
+      the error log or a message box): <code class="function">sg_str_error</code>
+      delivers a human readable error name and <code class="function">sg_strperror</code>
+      prepares a full blown error message for printing.
+    </p><p>
+      The error argument (<code class="function">sg_get_error_arg</code>) is stored
+      thread local and is reused every time an error occures. If a later
+      usage is intended, duplicating it is a suitable strategy. Same for
+      the <em class="structfield"><code>error_arg</code></em> of
+      <span class="structname">sg_error_details</span> delivered by
+      <code class="function">sg_get_error_details</code>.
+    </p><p>
+      When someone calls the function <code class="function">sg_get_error_details</code>
+      with a NULL pointer, the last error is overridden with a new one
+      describing that <code class="function">sg_get_error_details</code> is called
+      with invalid arguments. Please be careful.
+    </p><p>
+      The function <code class="function">sg_strperror</code> is allowed to be called
+      with or without (<em class="parameter"><code>err_details</code></em> is NULL) collected
+      error details. In the latter case, the last occurred error of this thread
+      is used to prepare the error message. Be aware, the the buffer pointer
+      must be non-NULL (points to an existing <span class="type">char *</span> lvalue),
+      but the <span class="type">char *</span> lvalue it points to, must be NULL.
+      When invoked correctly, there are only two possible error conditions
+      let <code class="function">sg_strperror</code> fail: <span class="errorcode">ENOMEM</span>
+      (out of memory) and <span class="errorcode">EINVAL</span> (invalid error code).
+      </p><div class="example"><a name="idm71"></a><p class="title"><b>Example 1. Example</b></p><div class="example-contents"><pre class="programlisting">
+if( NULL == sg_get_cpu_stats() ) {
+    char *buf = NULL;
+    if( NULL != sg_strperror( &amp;buf, NULL ) ) {
+        fprintf( stderr, "error getting CPU stats: %s\n", buf );
+        free(buf);
+        exit(255);
+    }
+    else {
+        fprintf( stderr, "error getting CPU stats and error information\n" );
+        exit(255);
+    }
+}
+        </pre></div></div><p><br class="example-break">
+    </p></div><div class="refsect1"><a name="idm74"></a><h2>Return Values</h2><p>
+      The error details contains following information:
+    </p><pre class="programlisting">
+typedef struct sg_error_details {
+        sg_error error;
+        int errno_value;
+        const char *error_arg;
+} sg_error_details;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <em class="structfield"><code>error</code></em>
+        </span></dt><dd><p>
+            The statgrab library error code.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>errno_value</code></em>
+        </span></dt><dd><p>
+            The operating system error code.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>error_arg</code></em>
+        </span></dt><dd><p>
+            Additional information set when the error was reported.
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm94"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm101"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

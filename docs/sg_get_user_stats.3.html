@@ -1,0 +1,58 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_user_stats</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_user_stats"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_user_stats, sg_get_user_stats_r, sg_free_user_stats &#8212; get the current logged in users</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_user_stats *<b class="fsfunc">sg_get_user_stats</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_user_stats *<b class="fsfunc">sg_get_user_stats_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_user_stats</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_user_stats *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm29"></a><h2>Description</h2><p>
+      The user statistics module delivers some information about logged on
+      users. Each logon is treated separately. Both statistic get functions,
+      <code class="function">sg_get_user_stats</code>() and
+      <code class="function">sg_get_user_stats_r</code>(), return a vector of
+      <span class="structname">sg_user_stats</span> with
+      <em class="parameter"><code>entries</code></em> elements.
+    </p><p>
+      </p><div class="table"><a name="idm37"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_user_stats</td><td align="left"><span class="structname">sg_user_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_user_stats_r</td><td align="left"><span class="structname">sg_user_stats</span> *</td><td align="left">caller</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      The <span class="structname">sg_user_stats</span> vector received from
+      <code class="function">sg_get_user_stats_r</code>() must be freed using
+      <code class="function">sg_free_user_stats</code>() when not needed any more. The
+      caller is responsible for doing it.
+    </p></div><div class="refsect1"><a name="idm63"></a><h2>Return Values</h2><p>
+      The structure returned is of type
+      <span class="structname">sg_user_stats</span>.
+    </p><pre class="programlisting">
+typedef struct {
+        char *login_name;
+        char *record_id;
+        size_t record_id_size;
+        char *device;
+        char *hostname;
+        pid_t pid;
+        time_t login_time;
+        time_t systime;
+} sg_user_stats;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term"><em class="structfield"><code>login_name</code></em></span></dt><dd><p>
+            The username which was used to log in
+          </p></dd><dt><span class="term"><em class="structfield"><code>record_id</code></em></span></dt><dd><p>
+            Record identifier of host database containing login information
+            (not necessarily 0-terminated)
+          </p></dd><dt><span class="term"><em class="structfield"><code>record_id_size</code></em></span></dt><dd><p>
+            Size of the record identifier
+          </p></dd><dt><span class="term"><em class="structfield"><code>device</code></em></span></dt><dd><p>
+            Device name (eg. "pts/0") of the tty assigned to the login
+            session
+          </p></dd><dt><span class="term"><em class="structfield"><code>hostname</code></em></span></dt><dd><p>
+            (remote) Hostname from where the user is logged on, eg.
+            "infoterm7.some.kind.of.domain.local", "localhost",
+            "10.42.17.4" or ":0.0" (in case it's a local logon
+            via new xterm)
+          </p></dd><dt><span class="term"><em class="structfield"><code>pid</code></em></span></dt><dd><p>
+            Process identifier of the process which made the entry to
+            the logged on users database
+          </p></dd><dt><span class="term"><em class="structfield"><code>login_time</code></em></span></dt><dd><p>
+            Timestamp (time in seconds since epoch) when the user logged on
+          </p></dd><dt><span class="term"><em class="structfield"><code>systime</code></em></span></dt><dd><p>
+            The timestamp when the above stats where collected in seconds
+            since epoch
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm109"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm116"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

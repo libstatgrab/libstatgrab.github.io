@@ -1,0 +1,95 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_cpu_stats</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_cpu_stats"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_cpu_stats, sg_get_cpu_stats_r, sg_get_cpu_stats_diff, sg_get_cpu_stats_diff_between, sg_get_cpu_percents, sg_get_cpu_percents_of, sg_get_cpu_percents_r, sg_free_cpu_stats &#8212; get cpu usage</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_percents *<b class="fsfunc">sg_get_cpu_percents</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_percents *<b class="fsfunc">sg_get_cpu_percents_of</b>(</code></td><td><var class="pdparam">cps</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_cpu_percent_source <var class="pdparam">cps</var></code>;<br><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_percents *<b class="fsfunc">sg_get_cpu_percents_r</b>(</code></td><td><var class="pdparam">whereof</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const sg_cpu_stats *<var class="pdparam">whereof</var></code>;<br><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">sg_free_cpu_percents</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_cpu_percents *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_stats *<b class="fsfunc">sg_get_cpu_stats</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_stats *<b class="fsfunc">sg_get_cpu_stats_diff</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_stats *<b class="fsfunc">sg_get_cpu_stats_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_cpu_stats *<b class="fsfunc">sg_get_cpu_stats_diff_between</b>(</code></td><td><var class="pdparam">cpu_now</var><var class="pdparam">cpu_last</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const sg_cpu_stats *<var class="pdparam">cpu_now</var>, const sg_cpu_stats *<var class="pdparam">cpu_last</var></code>;<br><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_cpu_stats</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_cpu_stats *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm71"></a><h2>Description</h2><p>
+      These are the categories of data delivered by the cpu stats module:
+      <code class="function">sg_get_cpu_stats</code>() and
+      <code class="function">sg_get_cpu_stats_r</code>() deliver native cpu
+      counters since the machine has been started,
+      <code class="function">sg_get_cpu_stats_diff</code>() and
+      <code class="function">sg_get_cpu_stats_diff_between</code>() deliver native
+      cpu counters between two <code class="function">sg_get_cpu_stats</code>()
+      calls and <code class="function">sg_get_cpu_percents_of</code>() and
+      <code class="function">sg_get_cpu_percents_r</code>() deliver correlated relative
+      cpu counters (where total is 100%).
+    </p><p>
+      </p><div class="table"><a name="idm82"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_cpu_stats</td><td align="left"><span class="structname">sg_cpu_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_cpu_stats_r</td><td align="left"><span class="structname">sg_cpu_stats</span> *</td><td align="left">caller</td></tr><tr><td align="left">sg_get_cpu_stats_diff</td><td align="left"><span class="structname">sg_cpu_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_cpu_stats_diff_between</td><td align="left"><span class="structname">sg_cpu_stats</span> *</td><td align="left">caller</td></tr><tr><td align="left">sg_get_cpu_percents_of</td><td align="left"><span class="structname">sg_cpu_percents</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_cpu_percents_r</td><td align="left"><span class="structname">sg_cpu_percents</span> *</td><td align="left">caller</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      The <span class="structname">sg_cpu_stats</span> buffer received from
+      <code class="function">sg_get_cpu_stats_r</code>() and the
+      <code class="function">sg_get_cpu_stats_diff_between</code>() as well as the
+      <span class="structname">sg_cpu_percents</span> buffer received from
+      <code class="function">sg_get_cpu_percents_r</code>() must be freed using
+      <code class="function">sg_free_cpu_stats</code>() or the
+      <code class="function">sg_free_cpu_percents</code>(), respectively, when not
+      needed any more. The caller is responsible for doing it.
+    </p><p>
+      The value stored (the "ticks") will vary between operating
+      systems.  For example Solaris has a total of 100 per second,
+      while Linux has substantially more.  Also, different operating
+      systems store different information - you won't find nice cpu on
+      Solaris for example.
+    </p><p>
+      Modern systems shall provide information about the clock tick
+      resolution by invoking <code class="code">sysconf(_SC_CLK_TCK)</code>.
+    </p></div><div class="refsect1"><a name="idm135"></a><h2>Return Values</h2><p>
+      There are two structures returned by the CPU statistics
+      functions.
+    </p><pre class="programlisting">
+typedef struct {
+        unsigned long long user;
+        unsigned long long kernel;
+        unsigned long long idle;
+        unsigned long long iowait;
+        unsigned long long swap;
+        unsigned long long nice;
+        unsigned long long total;
+
+        unsigned long long context_switches;
+        unsigned long long voluntary_context_switches;
+        unsigned long long involuntary_context_switches;
+        unsigned long long syscalls;
+        unsigned long long interrupts;
+        unsigned long long soft_interrupts;
+
+        time_t systime;
+} sg_cpu_stats;
+    </pre><pre class="programlisting">
+typedef struct {
+        double user;
+        double kernel;
+        double idle;
+        double iowait;
+        double swap;
+        double nice;
+        time_t time_taken;
+} sg_cpu_percents;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <em class="structfield"><code>user</code></em>
+          <em class="structfield"><code>kernel</code></em>
+          <em class="structfield"><code>idle</code></em>
+          <em class="structfield"><code>iowait</code></em>
+          <em class="structfield"><code>swap</code></em>
+          <em class="structfield"><code>nice</code></em>
+          <em class="structfield"><code>total</code></em>
+        </span></dt><dd><p>
+            The different CPU states.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>context_switches</code></em>
+          <em class="structfield"><code>voluntary_context_switches</code></em>
+          <em class="structfield"><code>involuntary_context_switches</code></em>
+          <em class="structfield"><code>syscalls</code></em>
+          <em class="structfield"><code>interrupts</code></em>
+          <em class="structfield"><code>soft_interrupts</code></em>
+        </span></dt><dd><p>
+            The different program actions on CPU.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>systime</code></em>
+          <em class="structfield"><code>time_taken</code></em>
+        </span></dt><dd><p>
+            The time taken in seconds since the last call of the
+            function, or the system time.
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm168"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm175"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

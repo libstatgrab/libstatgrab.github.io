@@ -1,0 +1,242 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_fs_stats</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_fs_stats"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_fs_stats, sg_get_fs_stats_r, sg_get_fs_stats_diff, sg_get_fs_stats_diff_between, sg_free_fs_stats, sg_get_valid_filesystems, sg_set_valid_filesystems, sg_fs_compare_device_name, sg_fs_compare_mnt_point &#8212; get file system statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_fs_stats *<b class="fsfunc">sg_get_fs_stats</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_fs_stats *<b class="fsfunc">sg_get_fs_stats_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_fs_stats *<b class="fsfunc">sg_get_fs_stats_diff</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_fs_stats *<b class="fsfunc">sg_get_fs_stats_diff_between</b>(</code></td><td><var class="pdparam">cur</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">last</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const sg_fs_stats *<var class="pdparam">cur</var></code>;<br><code>const sg_fs_stats *<var class="pdparam">last</var></code>;<br><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_fs_stats</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_fs_stats *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">const char **<b class="fsfunc">sg_get_valid_filesystems</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_set_valid_filesystems</b>(</code></td><td><var class="pdparam">valid_fs</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const char *<var class="pdparam">valid_fs</var>[]</code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">int <b class="fsfunc">sg_fs_compare_device_name</b>(</code></td><td><var class="pdparam">va</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">vb</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const void *<var class="pdparam">va</var></code>;<br><code>const void *<var class="pdparam">vb</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">int <b class="fsfunc">sg_fs_compare_mnt_point</b>(</code></td><td><var class="pdparam">va</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">vb</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const void *<var class="pdparam">va</var></code>;<br><code>const void *<var class="pdparam">vb</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm74"></a><h2>Description</h2><p>
+      The <code class="function">sg_get_fs_stats</code> functions provide statistics
+      of mounted file systems. Both functions take an optional
+      <em class="parameter"><code>entries</code></em> parameter, which points (when given)
+      to a size_t to take the number of returned vector entries.
+    </p><p>
+      The <code class="function">sg_get_fs_stats</code>() and
+      <code class="function">sg_get_fs_stats_r</code>() functions deliver the
+      file system statistics of the moment the function is called. The
+      <code class="function">sg_get_fs_stats_diff</code>() and
+      <code class="function">sg_get_fs_stats_diff_between</code>() deliver
+      the difference between two calls of
+      <code class="function">sg_get_fs_stats</code>() or
+      <code class="function">sg_get_fs_stats_r</code>(), respectively.
+    </p><p>
+      </p><div class="table"><a name="idm87"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_fs_stats</td><td align="left"><span class="structname">sg_fs_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_fs_stats_r</td><td align="left"><span class="structname">sg_fs_stats</span> *</td><td align="left">caller</td></tr><tr><td align="left">sg_get_fs_stats_diff</td><td align="left"><span class="structname">sg_fs_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_fs_stats_diff_between</td><td align="left"><span class="structname">sg_fs_stats</span> *</td><td align="left">caller</td></tr><tr><td align="left">sg_get_valid_filesystems</td><td align="left">char **</td><td align="left">libstatgrab (global)</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      The <span class="structname">sg_fs_stats</span> vectors received from
+      <code class="function">sg_get_fs_stats_r</code>() or
+      <code class="function">sg_get_fs_stats_diff_between</code>() must be
+      freed using <code class="function">sg_free_fs_stats</code>() when not
+      needed anymore. The caller is responsible for doing it.
+    </p><p>
+      The statgrab library comes with a built-in list of valid file system
+      types depending on the operating system it was compiled for. Some
+      operating systems additionally provide an API to learn the file system
+      types known or valid to the running OS instance, which is used when
+      detected. Nevertheless there are known problems when collecting file
+      system statistics: network file systems are mounted from delaunched
+      servers, file system developers run an experimental driver etc.
+    </p><p>
+      To prevent processes hang in getting file system statistics or allow
+      developers to test their drivers, the processes may modify the list of
+      valid file systems using the
+      <code class="function">sg_get_valid_filesystems</code>() and the
+      <code class="function">sg_set_valid_filesystems</code>(). The list of
+      <em class="parameter"><code>char *</code></em> parameters both functions work with is
+      always finished with an element pointing to NULL.
+    </p><p>
+      The returned list of
+      <code class="function">sg_get_valid_filesystems</code>() must not be modified.
+      Always copy the list into an own structure, if you plan to extend or
+      reduce the list:
+      </p><div class="example"><a name="idm135"></a><p class="title"><b>Example 1. Remove Network FS Example</b></p><div class="example-contents"><pre class="programlisting">
+int compare_fs_type(const void *va, const void *vb) {
+    const char **a = (const char **)va;
+    const char **b = (const char **)vb;
+    return strcmp( *a, *b );
+}
+
+void filter_network_fs_types(void) {
+    /* known network file system names on different platforms */
+    const char *nfs_types[] = { "nfs", "nfs3", "nfs4", "cifs", "smbfs", "samba" };
+    const size_t nfs_types_count = sizeof(nfs_types) / sizeof(nfs_types[0])
+    size_t fs_entries = 0;
+    const char **orig_valid_fs = sg_get_valid_filesystems(&amp;fs_entries);
+
+    /* duplicate into own memory to modify list */
+    char **valid_fs = calloc( entries + 1, sizeof(valid_fs[0]) );
+    memcpy( valid_fs, orig_valid_fs, (entries + 1) * sizeof(valid_fs[0]) );
+    size_t i;
+    for( i = 0; i &lt; nfs_types_count; ++i ) {
+        char **inv_fs = bsearch( &amp;nfs_types[i], &amp;valid_fs[0],
+                                 fs_entries, sizeof(valid_fs[0]),
+                                 compare_fs_type );
+        if( NULL != inv_fs ) {
+            /* copy including trailing NULL pointer */
+            memmove( inv_fs, inv_fs + 1, fs_entries - (inv_fs - valid_fs) );
+            --fs_entries;
+        }
+    }
+    sg_set_valid_filesystems( valid_fs );
+    free( valid_fs );
+}
+        </pre></div></div><p><br class="example-break">
+      Note that there's no need to duplicate the strings contained in the
+      list of valid file systems in the above example - they aren't
+      modified.
+    </p><p>
+      The list returned by <code class="function">sg_get_valid_filesystems</code>()
+      might become invalid when used while the process makes calls to
+      <code class="function">sg_set_valid_filesystems</code>(). None of the
+      sg_fs_stats functions protect the access to the globally used
+      storage where the own copy of the list of the valid file systems is
+      held. It's the responsibility of the caller not to mix
+      configuration calls with calls to fetch statistics.
+    </p><p>
+      Additionally two support functions for <code class="function">qsort</code>(3)
+      are available: <code class="function">sg_fs_compare_device_name</code>() and
+      <code class="function">sg_fs_compare_mnt_point</code>().
+      </p><div class="example"><a name="idm145"></a><p class="title"><b>Example 2. Sort Example</b></p><div class="example-contents"><pre class="programlisting">
+size_t entries;
+sg_fs_stats *fs_stats = NULL;
+while( NULL != ( fs_stats = sg_get_fs_stats_diff(&amp;entries) ) ) {
+    /* order entries alphabetically using the mountpoint */
+    qsort( fs_stats, entries, sizeof(fs_stats[0]), &amp;sg_fs_compare_mnt_point );
+    show_fs_stats( fs_stats );
+}
+        </pre></div></div><p><br class="example-break">
+    </p></div><div class="refsect1"><a name="idm148"></a><h2>Return Values</h2><p>
+      <code class="function">sg_get_fs_stats</code> returns a pointer to a
+      structure of type <span class="structname">sg_fs_stats</span>.
+    </p><pre class="programlisting">
+typedef enum {
+        sg_fs_unknown  = 0,
+        sg_fs_regular  = 1 &lt;&lt; 0,
+        sg_fs_special  = 1 &lt;&lt; 1,
+        sg_fs_loopback = 1 &lt;&lt; 2,
+        sg_fs_remote   = 1 &lt;&lt; 3,
+        sg_fs_local    = (sg_fs_regular | sg_fs_special),
+        sg_fs_alltypes = (sg_fs_regular | sg_fs_special | sg_fs_loopback | sg_fs_remote)
+} sg_fs_device_type;
+    </pre><pre class="programlisting">
+typedef struct {
+        char *device_name;
+        char *fs_type;
+        char *mnt_point;
+        sg_fs_device_type device_type;
+        unsigned long long size;
+        unsigned long long used;
+        unsigned long long free;
+        unsigned long long avail;
+        unsigned long long total_inodes;
+        unsigned long long used_inodes;
+        unsigned long long free_inodes;
+        unsigned long long avail_inodes;
+        unsigned long long io_size;
+        unsigned long long block_size;
+        unsigned long long total_blocks;
+        unsigned long long free_blocks;
+        unsigned long long used_blocks;
+        unsigned long long avail_blocks;
+        time_t systime;
+} sg_fs_stats;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <em class="structfield"><code>device_name</code></em>
+        </span></dt><dd><p>
+            The name known to the operating system.
+            (eg. on linux it might be hda)
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>fs_type</code></em>
+        </span></dt><dd><p>
+            The file system type of the file system (eg. hpfs or ufs).
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>mnt_point</code></em>
+        </span></dt><dd><p>
+            The mount point at which the file system is mounted.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>device_type</code></em>
+        </span></dt><dd><p>
+            The device type of the file system, currently not filled and
+            always sg_fs_unknown.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>size</code></em>
+        </span></dt><dd><p>
+            The total size, in bytes, of the file system.
+          </p><p>
+            size = used + free
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>used</code></em>
+        </span></dt><dd><p>
+            The amount of space, in bytes, used on the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>avail</code></em>
+        </span></dt><dd><p>
+            The amount of space, in bytes, available on the file system for
+            non-privileged users/processes (free space less reserved space).
+          </p><p>
+            avail = free - reserved
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>free</code></em>
+        </span></dt><dd><p>
+            The amount of space, in bytes, free on the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>total_inodes</code></em>
+        </span></dt><dd><p>
+            The total number of inodes in the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>used_inodes</code></em>
+        </span></dt><dd><p>
+            The number of used inodes in the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>free_inodes</code></em>
+        </span></dt><dd><p>
+            The number of free inodes in the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>avail_inodes</code></em>
+        </span></dt><dd><p>
+            The number of free inodes available to non-privileged processes.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>io_size</code></em>
+        </span></dt><dd><p>
+            A suggested optimal block size for I/O operations -- if you're
+            reading or writing lots of data, do it in chunks of this size.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>block_size</code></em>
+        </span></dt><dd><p>
+            The size in bytes of the minimum unit of allocation on this
+            file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>total_blocks</code></em>
+        </span></dt><dd><p>
+            The total number of blocks in the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>free_blocks</code></em>
+        </span></dt><dd><p>
+            The number of free blocks in the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>used_blocks</code></em>
+        </span></dt><dd><p>
+            The number of used blocks in the file system.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>avail_blocks</code></em>
+        </span></dt><dd><p>
+            The number of free blocks available to non-privileged processes.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>systime</code></em>
+        </span></dt><dd><p>
+            The time in seconds since epoch when the statistic was
+            retrieved from kernel.
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm253"></a><h2>Bugs</h2><p>
+      Only mounted file systems are recognised.
+    </p><p>
+      Some file systems might be reported twice when mounted on different
+      mount points.
+    </p><p>
+      The compare functions exist rather for backward compatibility than
+      for functionality enhancements. Limited flexibility (e.g. reverse
+      order) and lack of optimising opportunities for the compiler leads
+      to the recommendation to implement the required compare routines
+      locally.
+    </p><p>
+      Calling <code class="function">sg_set_valid_filesystems</code> with an empty
+      list with clear the internal list of valid file systems. There's
+      currently no way to reset to the initial list.
+    </p></div><div class="refsect1"><a name="idm260"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm267"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

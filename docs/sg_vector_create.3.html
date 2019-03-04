@@ -1,0 +1,216 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_vector_create</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_vector_create"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_vector_create, sg_vector_clear, sg_vector_resize, sg_vector_free, sg_vector_clone, sg_vector_clone_into, sg_vector_compute_diff, sg_prove_vector, sg_get_nelements, sg_free_stats_buf &#8212; statgrab vector management</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include "statgrab.h"
+#include "vector.h"</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">struct sg_vector *<b class="fsfunc">sg_vector_create</b>(</code></td><td><var class="pdparam">block_size</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">alloc_count</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">initial_used</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">info</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t <var class="pdparam">block_size</var></code>;<br><code>size_t <var class="pdparam">alloc_count</var></code>;<br><code>size_t <var class="pdparam">initial_used</var></code>;<br><code>const sg_vector_init_info * const <var class="pdparam">info</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">sg_vector_clear</b>(</code></td><td><var class="pdparam">vector</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector *<var class="pdparam">vector</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">struct sg_vector *<b class="fsfunc">sg_vector_resize</b>(</code></td><td><var class="pdparam">vector</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector *<var class="pdparam">vector</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">sg_vector_free</b>(</code></td><td><var class="pdparam">vector</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector *<var class="pdparam">vector</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">struct sg_vector *<b class="fsfunc">sg_vector_clone</b>(</code></td><td><var class="pdparam">src</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const struct sg_vector *<var class="pdparam">src</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_vector_clone_into</b>(</code></td><td><var class="pdparam">dest</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">src</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector **<var class="pdparam">dest</var></code>;<br><code>const struct sg_vector *<var class="pdparam">src</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_vector_compute_diff</b>(</code></td><td><var class="pdparam">dest</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">cur_vector</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">last_vector</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector **<var class="pdparam">dest</var></code>;<br><code>const struct sg_vector *<var class="pdparam">cur_vector</var></code>;<br><code>const struct sg_vector *<var class="pdparam">last_vector</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_prove_vector</b>(</code></td><td><var class="pdparam">vec</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const struct sg_vector *<var class="pdparam">vec</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">size_t <b class="fsfunc">sg_get_nelements</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const void *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_stats_buf</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>void *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm97"></a><h2>Description</h2><p>
+      <code class="function">sg_vector_create</code>() allocates and initialises a
+      new statgrab vector with <em class="parameter"><code>initial_used</code></em> elements
+      ready for use. Space for <em class="parameter"><code>alloc_count</code></em> elements
+      is initially allocated (to avoid too many calls to
+      <code class="function">realloc</code>() during later
+      <code class="function">sg_vector_resize</code>() calls). The value of
+      <em class="parameter"><code>block_size</code></em> must be a power of 2, it's rounded
+      up to the next power of 2 when it's not. If
+      <em class="parameter"><code>alloc_count</code></em> is not a multiple of
+      <em class="parameter"><code>block_size</code></em>, it's rounded up to the next
+      multiple of <em class="parameter"><code>block_size</code></em>. It returns a pointer
+      to the newly created vector.
+    </p><p>
+      <code class="function">sg_vector_clear</code>() destroys all elements
+      contained in the given vector. In opposite to
+      <code class="function">sg_vector_resize</code>( x, 0 ) the allocated size of
+      the vector remains untouched.
+    </p><p>
+      <code class="function">sg_vector_resize</code>() increases or decreases the
+      amount of allocated elements in the specified vector. The amount of
+      allocated elements is always a multiple of the intialisation parameter
+      <em class="parameter"><code>block_size</code></em>. In the special case,
+      <code class="function">sg_vector_resize</code>() is called with 0 in
+      argument <em class="parameter"><code>new_count</code></em>, the vector is freed after
+      all vector elements had been destroyed. It returns the pointer to the
+      resized vector.
+    </p><p>
+      <code class="function">sg_vector_free</code>() destroys all vector elements
+      and deallocates the storage belonging to the given vector.
+    </p><p>
+      <code class="function">sg_vector_clone</code>() clones all elements of the
+      given vector into a new vector created with the same specification
+      as the referenced one. It returns a pointer to the cloned vector.
+    </p><p>
+      <code class="function">sg_vector_clone_into</code>() clones all elements of
+      the given source vector into the given target vector. The target
+      vector must be created for the same element data type as the source
+      vector. It returns an error code != to SG_ERROR_NONE if
+      something went wrong.
+    </p><p>
+      <code class="function">sg_vector_compute_diff</code>() computes a difference
+      vector between the vector containing current statistics and another
+      vector containing older statistics. If an element exists in the
+      current vector but not in the opposite one, it's cloned into the
+      result vector. If an element exists only in the opposite vector,
+      it doesn't appear in the target vector.
+      <code class="function">sg_vector_compute_diff</code>() returns an error
+      code != to SG_ERROR_NONE if something went wrong.
+    </p><p>
+      <code class="function">sg_prove_vector</code>() proves whether a pointer to a
+      vector really points to a vector. In case the given vector pointer
+      points to corrupted data, the program is aborted. When
+      <code class="function">sg_prove_vector</code>() returns, it returns
+      SG_ERROR_NONE.
+    </p><p>
+      <code class="function">sg_get_nelements</code>() returns the number of
+      elements the given data area, encompasses by a statgrab vector,
+      contains. The vector head is internally calculated from the
+      given pointer to the first vector element.
+    </p><p>
+      <code class="function">sg_free_stats_buf</code>() frees the vector
+      emcompassing the given data area.
+    </p></div><div class="refsect1"><a name="idm133"></a><h2>Notes</h2><p>
+      Except <code class="function">sg_get_nelements</code>() and
+      <code class="function">sg_free_stats_buf</code>() none of above functions can
+      be called from outside of the libstatgrab sources. The documented
+      structures and APIs may change without warning. The description of
+      all other API is intended to be read from libstatgrab developers
+      only.
+    </p><p>
+      Each vector is created from two elements: the vector information
+      and the list of elements:
+
+      </p><pre class="programlisting">
+template &lt;class T, class Impl&gt;
+struct sg_vector {
+        size_t used_count;
+        size_t alloc_count;
+        size_t block_shift;
+        Impl vector_implementation;
+        T elements[alloc_count];
+};
+      </pre><p>
+
+      Of course, it is not valid C, so being tricky was the solution:
+      </p><pre class="programlisting">
+typedef struct sg_vector {
+	size_t used_count;
+	size_t alloc_count;
+	size_t block_shift;
+	struct sg_vector_init_info info;
+} sg_vector;
+
+struct sg_vector_size_helper {
+	struct sg_vector v;
+	long long ll;
+};
+
+#define VECTOR_SIZE offsetof(struct sg_vector_size_helper,ll)
+
+/* Return the data ptr of a vector */
+#define VECTOR_DATA(vector) \
+	(vector ? (void *)(((char *)vector)+VECTOR_SIZE) : NULL)
+
+#define VECTOR_ADDR_ARITH(ptr) \
+	(sg_vector *)(((char *)(ptr))-VECTOR_SIZE)
+/* Return the vector for a data */
+#define VECTOR_ADDRESS(ptr) \
+	((ptr) ? (SG_ERROR_NONE == sg_prove_vector(VECTOR_ADDR_ARITH(ptr)) ? VECTOR_ADDR_ARITH(ptr) : NULL ) : NULL)
+      </pre><p>
+    </p><p>
+      This also allows user functions as
+      <code class="function">sg_get_nelements</code>() and
+      <code class="function">sg_free_stats_buf</code>() to switch easily between
+      the vector structure and the content.
+    </p><div class="refsect2"><a name="idm144"></a><h3>The vector specialisation structure</h3><p>
+        As mentioned, the vector implementation uses strategies from the
+        object oriented programming concept named "polymorphism".
+        A vector is described by a small object containing inherent
+        attributes like element size and a bunch of "virtual
+        methods" to do element related tasks like initialising or
+        destroying elements.
+      </p><pre class="programlisting">
+typedef void (*vector_init_function)(void *item);
+typedef sg_error (*vector_copy_function)(const void *src, void *dst);
+typedef sg_error (*vector_compute_diff_function)(void *dst, const void *src);
+typedef int (*vector_compare_function)(const void *a, const void *b);
+typedef void (*vector_destroy_function)(void *item);
+
+struct sg_vector_init_info {
+        size_t item_size;
+        vector_init_function init_fn;
+        vector_copy_function copy_fn;
+        vector_compute_diff_function compute_diff_fn;
+        vector_compare_function compare_fn;
+        vector_destroy_function destroy_fn;
+};
+      </pre><p>
+        The instances of struct <span class="structname">sg_vector_init_info</span>
+        are conceptional statically initialised by using either the
+        preprocessor macro
+        <code class="function">VECTOR_INIT_INFO_FULL_INIT</code>(<em class="parameter"><code>type</code></em>)
+        or
+        <code class="function">VECTOR_INIT_INFO_EMPTY_INIT</code>(<em class="parameter"><code>type</code></em>).
+        Here're some examples to demonstrate how it's meant:
+
+        </p><div class="example"><a name="idm154"></a><p class="title"><b>Example 1. Initialising CPU statistics vector description</b></p><div class="example-contents"><pre class="programlisting">
+VECTOR_INIT_INFO_EMPTY_INIT(sg_cpu_stats);
+          </pre></div></div><p><br class="example-break">
+
+        </p><div class="example"><a name="idm157"></a><p class="title"><b>Example 2. Initialising Host-Info statistics vector description</b></p><div class="example-contents"><pre class="programlisting">
+static void sg_os_stats_item_init(sg_os_stats *d);
+static void sg_os_stats_item_destroy(sg_os_stats *d);
+
+#define sg_os_stats_item_copy NULL
+#define sg_os_stats_item_compute_diff NULL
+#define sg_os_stats_item_compare NULL
+
+VECTOR_INIT_INFO_FULL_INIT(sg_os_stats);
+          </pre></div></div><p><br class="example-break">
+
+        </p><div class="example"><a name="idm160"></a><p class="title"><b>Example 3. Initialising Disk-IO statistics vector description</b></p><div class="example-contents"><pre class="programlisting">
+static void sg_disk_io_stats_item_init(sg_disk_io_stats *d);
+static sg_error sg_disk_io_stats_item_copy(sg_disk_io_stats *d, const sg_disk_io_stats *s);
+static sg_error sg_disk_io_stats_item_compute_diff(const sg_disk_io_stats *s, sg_disk_io_stats *d);
+static int sg_disk_io_stats_item_compare(const sg_disk_io_stats *a, const sg_disk_io_stats *b);
+static void sg_disk_io_stats_item_destroy(sg_disk_io_stats *d);
+
+VECTOR_INIT_INFO_FULL_INIT(sg_disk_io_stats);
+          </pre></div></div><p><br class="example-break">
+      </p></div><div class="refsect2"><a name="idm163"></a><h3>Working with vectors</h3><p>
+        To simplify the working with the vector management functions, some
+        preprocessor macros are available. They are shown here as if they
+        were functions to ease understanding.
+      </p><p>
+        </p><div class="funcsynopsis"><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">struct sg_vector *<b class="fsfunc">VECTOR_CREATE</b>(</code></td><td><var class="pdparam">type</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">block_size</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">type</var></code>;<br><code>size_t <var class="pdparam">block_size</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">VECTOR_CLEAR</b>(</code></td><td><var class="pdparam">vector</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector *<var class="pdparam">vector</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">struct sg_vector *<b class="fsfunc">VECTOR_CREATE_OR_RESIZE</b>(</code></td><td><var class="pdparam">vector</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">new_count</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">type</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector *<var class="pdparam">vector</var></code>;<br><code>size_t <var class="pdparam">new_count</var></code>;<br><code>identifier <var class="pdparam">type</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">VECTOR_UPDATE</b>(</code></td><td><var class="pdparam">vectorptr</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">new_count</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">data</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">datatype</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector **<var class="pdparam">vectorptr</var></code>;<br><code>size_t <var class="pdparam">new_count</var></code>;<br><code>datatype *<var class="pdparam">data</var></code>;<br><code>identifier <var class="pdparam">datatype</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">VECTOR_ITEM_COUNT</b>(</code></td><td><var class="pdparam">vector</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>struct sg_vector *<var class="pdparam">vector</var></code>;</div><div class="funcprototype-spacer"> </div></div><p>
+      </p><p>
+        <code class="function">VECTOR_CREATE</code>() calls
+        <code class="function">sg_vector_create</code>() with
+        <code class="code">alloc_count = block_size</code> and <code class="code">initial_used = 0</code>
+        using the vector specialisation <code class="code">type##_vector_init_info</code>.
+      </p><p>
+        <code class="function">VECTOR_CLEAR</code>() simply calls
+        <code class="function">sg_vector_clear</code>(). This macro exists only for
+        conformity.
+      </p><p>
+        <code class="function">VECTOR_CREATE_OR_RESIZE</code>() calls
+        <code class="function">sg_vector_create</code>() when the given vector pointer
+        points to <code class="code">NULL</code> or <code class="function">sg_vector_resize</code>()
+        otherwise. The result of the appropriate function is returned.
+      </p><p>
+        <code class="function">VECTOR_UPDATE</code>() calls
+        <code class="function">VECTOR_CREATE_OR_RESIZE</code>() and sets data to the
+        first element of the resulting vector when a non-NULL pointer got, to
+        NULL otherwise.
+        When <code class="function">VECTOR_CREATE_OR_RESIZE</code>() returns a NULL
+        pointer and <em class="parameter"><code>new_count</code></em> is not equal to 0 (zero),
+        the intructions from the macro <code class="function">VECTOR_UPDATE_ERROR_CLEANUP</code>
+        are executed to cleanup before returning from current subroutine with
+        the error which has been occurred.
+      </p><p>
+        <code class="function">VECTOR_ITEM_COUNT</code>() returns 0 for a non-existing
+        vector (<em class="parameter"><code>vector</code></em> == 0) and the number of
+        containing elements otherwise.
+      </p></div></div><div class="refsect1"><a name="idm234"></a><h2>Return Values</h2><p>
+      Beside error codes, the return values, if any, are always a pointer to
+      vector structures (struct <span class="structname">sg_vector</span> *).
+    </p></div><div class="refsect1"><a name="idm238"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm245"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

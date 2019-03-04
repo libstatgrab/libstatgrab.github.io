@@ -1,0 +1,44 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>saidar</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="saidar"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>saidar &#8212; a curses-based tool for viewing system statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">saidar</code>  [-d <em class="replaceable"><code>delay</code></em>] [-c] [-v] [-h]</p></div></div><div class="refsect1"><a name="idm17"></a><h2>Description</h2><p>
+      <span class="command"><strong>saidar</strong></span> is a curses-based tool for viewing the
+      system statistics available through libstatgrab. Statistics include
+      CPU, processes, load, memory, swap, network I/O, disk I/O, and file
+      system information.
+    </p></div><div class="refsect1"><a name="idm21"></a><h2>Options</h2><p>
+      The following options are supported.
+    </p><div class="variablelist"><dl class="variablelist"><dt><span class="term"><code class="option">-d</code> <em class="replaceable"><code>DELAY</code></em></span></dt><dd><p>
+            Wait DELAY seconds between updates (default 3)
+          </p></dd><dt><span class="term"><code class="option">-c</code></span></dt><dd><p>
+            Enables coloured output
+          </p></dd><dt><span class="term"><code class="option">-v</code></span></dt><dd><p>
+            Prints the version number
+          </p></dd><dt><span class="term"><code class="option">-h</code></span></dt><dd><p>
+            Display help and exits
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm46"></a><h2>Coloured Output</h2><p>
+      When the <code class="option">-c</code> option is used saidar uses colours
+      to display the data. Each area has a different colour to
+      distinguish it from the nearby fields. Bold and reverse video
+      effects are used to emphasis fields where necessary.
+    </p><p>
+      The load average figures are displayed in bold when they're
+      notably (greater that 1) different to each other. This purely
+      shows that a change in the load is occurring.
+    </p><p>
+      When CPU usage goes over 60% it will be displayed in bold.
+      At 90% the field is displayed using reverse video. Likewise
+      for memory, swap and disk usage at 75% and 90%. Zombie
+      processes are also highlighted.
+    </p><p>
+      Other values (paging, disk I/O and network I/O) are not
+      highlighted due to the nature of the values; it's not easy
+      to determine what thresholds are significant.
+    </p></div><div class="refsect1"><a name="idm53"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(1)</span>
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm63"></a><h2>Authors</h2><p>
+      This man page was derived from the man page written by Bartosz
+      Fenski for the Debian GNU/Linux distribution.
+    </p></div><div class="refsect1"><a name="idm66"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

@@ -1,0 +1,54 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_get_page_stats</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_get_page_stats"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_get_page_stats, sg_get_page_stats_r, sg_get_page_stats_diff, sg_get_page_stats_diff_between, sg_free_page_stats &#8212; get paging statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_page_stats *<b class="fsfunc">sg_get_page_stats</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_page_stats *<b class="fsfunc">sg_get_page_stats_r</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_page_stats *<b class="fsfunc">sg_get_page_stats_diff</b>(</code></td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_page_stats *<b class="fsfunc">sg_get_page_stats_diff_between</b>(</code></td><td><var class="pdparam">cur</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">last</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">entries</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const sg_page_stats *<var class="pdparam">cur</var></code>;<br><code>const sg_page_stats *<var class="pdparam">last</var></code>;<br><code>size_t *<var class="pdparam">entries</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_free_page_stats</b>(</code></td><td><var class="pdparam">data</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_page_stats *<var class="pdparam">data</var></code>;</div><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm45"></a><h2>Description</h2><p>
+      The page stats module deliver the number of pages swapped in and out,
+      either since the machine has been booted (by the
+      <code class="function">sg_get_page_stats</code>() and
+      <code class="function">sg_get_page_stats_r</code>() functions) or the
+      difference between two measured statistics (by the
+      <code class="function">sg_get_page_stats_diff</code>() and
+      <code class="function">sg_get_page_stats_diff_between</code>() functions).
+    </p><p>
+      The <code class="function">sg_get_page_stats_diff</code>() function calculates
+      the difference between the last call to the function
+      <code class="function">sg_get_page_stats</code>() in this thread (the
+      statistics of the earlier call are saved and
+      <code class="function">sg_get_page_stats</code>() is called immediately after
+      this).
+    </p><p>
+      </p><div class="table"><a name="idm57"></a><p class="title"><b>Table 1. API Shortcut</b></p><div class="table-contents"><table class="table" summary="API Shortcut" border="1"><colgroup><col align="left" class="function"><col align="left" class="returns"><col align="left" class="data owner"></colgroup><thead><tr><th align="left">function</th><th align="left">returns</th><th align="left">data owner</th></tr></thead><tbody><tr><td align="left">sg_get_page_stats</td><td align="left"><span class="structname">sg_page_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_page_stats_r</td><td align="left"><span class="structname">sg_page_stats</span> *</td><td align="left">caller</td></tr><tr><td align="left">sg_get_page_stats_diff</td><td align="left"><span class="structname">sg_page_stats</span> *</td><td align="left">libstatgrab (thread local)</td></tr><tr><td align="left">sg_get_page_stats_diff_between</td><td align="left"><span class="structname">sg_page_stats</span> *</td><td align="left">caller</td></tr></tbody></table></div></div><p><br class="table-break">
+    </p><p>
+      The <span class="structname">sg_page_stats</span> buffer received from
+      <code class="function">sg_get_page_stats_r</code>() and the
+      <code class="function">sg_get_page_stats_diff_between</code>() must be freed
+      using <code class="function">sg_free_page_stats</code>() when not
+      needed any more. The caller is responsible for doing it.
+    </p></div><div class="refsect1"><a name="idm94"></a><h2>Return Values</h2><pre class="programlisting">
+typedef struct{
+        unsigned long long pages_pagein;
+        unsigned long long pages_pageout;
+        time_t systime;
+}sg_page_stats;
+    </pre><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <em class="structfield"><code>pages_pagein</code></em>
+        </span></dt><dd><p>
+            The number of pages swapped into memory.
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>pages_pageout</code></em>
+        </span></dt><dd><p>
+            The number of pages swapped out of memory (to swap).
+          </p></dd><dt><span class="term">
+          <em class="structfield"><code>systime</code></em>
+        </span></dt><dd><p>
+            The timestamp when the above stats where collected in seconds
+            since epoch or the time period over which <em class="parameter"><code>pages_pagein</code></em>
+            and <em class="parameter"><code>pages_pageout</code></em> were transferred.
+          </p></dd></dl></div></div><div class="refsect1"><a name="idm115"></a><h2>Bugs</h2><p>
+      Solaris doesn't seem to report accurately. It reports the number
+      of pages swapped into memory, not necessarily from swap. This
+      feature isn't deemed entirely reliable.
+    </p></div><div class="refsect1"><a name="idm118"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm125"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

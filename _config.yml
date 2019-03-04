@@ -1,0 +1,5 @@
+theme: jekyll-theme-slate
+title: libstatgrab
+description: a cross platform library for accessing system statistics
+github:
+  repository_url: https://github.com/libstatgrab/

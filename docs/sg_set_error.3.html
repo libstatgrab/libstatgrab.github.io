@@ -1,0 +1,26 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_set_error</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_set_error"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_set_error, sg_set_error_with_errno, sg_set_error_with_errno_code, sg_clear_error &#8212; sets the error condition</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_set_error</b>(</code></td><td><var class="pdparam">code</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">arg</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_error <var class="pdparam">code</var></code>;<br><code>const char *<var class="pdparam">arg</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_set_error_with_errno</b>(</code></td><td><var class="pdparam">code</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">arg</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_error <var class="pdparam">code</var></code>;<br><code>const char *<var class="pdparam">arg</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_set_error_with_errno_code</b>(</code></td><td><var class="pdparam">code</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">arg</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">errno_value</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_error <var class="pdparam">code</var></code>;<br><code>const char *<var class="pdparam">arg</var></code>;<br><code>int <var class="pdparam">errno_value</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">sg_clear_error</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm42"></a><h2>Description</h2><p>
+      <code class="function">sg_set_error</code>() sets the occurred error condition
+      together with an argument. The argument is usually descriptive, eg.
+      the file name which failed to open.
+    </p><p>
+      <code class="function">sg_set_error_with_errno</code>() sets the occurred error
+      condition together with an argument and the value of the system
+      libraries <code class="varname">errno</code> value. The argument is usually
+      descriptive, eg. the name of the failed <code class="function">sysctl</code>()
+      call.
+    </p><p>
+      <code class="function">sg_set_error_with_errno_code</code>() sets the occurred
+      error condition together with an argument and an error value of a
+      system library call which doesn't set the <code class="varname">errno</code>
+      value (eg. the pthread_* calls).  The argument is usually descriptive,
+      eg. the name of the mutex failed to get locked.
+    </p><p>
+      <code class="function">sg_clear_error</code>() clears the current error
+      condition.
+    </p></div><div class="refsect1"><a name="idm55"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm62"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>

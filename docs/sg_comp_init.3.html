@@ -1,0 +1,208 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_comp_init</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_comp_init"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_comp_init, sg_comp_destroy, sg_comp_get_tls, sg_global_lock, sg_global_unlock &#8212; managing system statistics delivery</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include "tools.h"</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void *<b class="fsfunc">get_global_static</b>(</code></td><td><var class="pdparam">id</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>unsigned int <var class="pdparam">id</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_global_lock</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_global_unlock</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm29"></a><h2>Description</h2><p>
+      <code class="function">sg_comp_init</code>() is called by
+      <code class="function">sg_init</code>() to run the initialisation for the
+      globals component and each registered libstatgrab component. This
+      registration is done statically by appending a component
+      initialisation information structure
+      (instance-of <span class="structname">sg_comp_info</span>) to the
+      <code class="varname">comp_info</code> list in
+      <code class="filename">src/libstatgrab/globals.c</code>. The instance of
+      <span class="structname">sg_comp_info</span> is usually defined by using
+      one of <code class="function">EASY_COMP_SETUP</code>() or
+      <code class="function">EXTENDED_COMP_SETUP</code>(), respectively.
+    </p><p>
+      <code class="function">sg_comp_destroy</code>() is called by
+      <code class="function">sg_shutdown</code>() to destroy all global resources,
+      eg. translation tables for device names or compiled regular
+      expressions to match path names etc. Statistics resources are managed
+      somewhere else and are freed (conceptually and usually) before
+      <code class="function">sg_comp_destroy</code>() is invoked.
+    </p><p>
+      <code class="function">sg_comp_get_tls</code>() is the internal function
+      to access the thread local storage (formerly static globals) of the
+      component. Usually it's easier to rely on the encapsulating macro
+      <code class="function">GLOBAL_GET_TLS</code>().
+    </p></div><div class="refsect1"><a name="idm47"></a><h2>Notes</h2><p>
+      Delivering system statistics is the job of libstatgrab, managing
+      the delivery is the job of the globals component. To fulfil this
+      job, the components to manage must be prepared:
+      </p><div class="orderedlist"><ol class="orderedlist compact" type="1"><li class="listitem">declare component's global and TLS data structure
+        (probably only on paper, not in code)</li><li class="listitem">define global initialisation, thread destruction and
+        process destruction functions (if required by 1.)</li><li class="listitem">define component information structure using
+        <code class="function">*_COMP_SETUP</code>()</li><li class="listitem">
+          define component accessors using one or more of
+          <table border="0" summary="Simple list" class="simplelist"><tr><td><code class="function">EASY_COMP_ACCESS</code>()</td></tr><tr><td><code class="function">EASY_COMP_DIFF</code>()</td></tr><tr><td><code class="function">MULTI_COMP_ACCESS</code>()</td></tr><tr><td><code class="function">MULTI_COMP_DIFF</code>()</td></tr></table></li></ol></div><p>
+      When having done these steps, a new component delivering new
+      statistics is born and needs to be "announced". Assuming
+      the component is named <span class="emphasis"><em>cpu</em></span>, append the line
+      <code class="code">{ &amp;sg_cpu_init, 0 }</code> to above named
+      <code class="varname">comp_info</code> list.
+    </p><p>
+      Component initialisation information in detail:
+      </p><pre class="programlisting">
+typedef sg_error (*comp_global_init_function)(unsigned id);
+typedef void (*comp_global_destroy_function)(void);
+typedef void (*comp_global_cleanup_function)(void *);
+
+struct sg_comp_status {
+        sg_error init_error;
+};
+
+struct sg_comp_init {
+        comp_global_init_function init_fn;
+        comp_global_destroy_function destroy_fn;
+        comp_global_cleanup_function cleanup_fn;
+        size_t static_buf_size;
+#if defined(ENABLE_THREADS) &amp;&amp; defined(HAVE_PTHREAD)
+        const char **required_locks;
+#endif
+        struct sg_comp_status *status;
+};
+      </pre><p>
+
+      Components which do not need something special can rely on
+      <code class="function">EASY_COMP_SETUP</code>():
+
+      </p><div class="example"><a name="idm71"></a><p class="title"><b>Example 1. Initialising memory component</b></p><div class="example-contents"><pre class="programlisting">
+EASY_COMP_SETUP(mem,1,NULL);
+        </pre></div></div><p><br class="example-break">
+
+      When own initialisation is needed, doing it is a bit more complex:
+      </p><div class="example"><a name="idm74"></a><p class="title"><b>Example 2. Initialising network component</b></p><div class="example-contents"><pre class="programlisting">
+#define SG_NETWORK_IO_NOW_IDX	0
+#define SG_NETWORK_IO_DIFF_IDX	1
+#define SG_NETWORK_IFACE_IDX	2
+#define SG_NETWORK_MAX_IDX	3
+
+EXTENDED_COMP_SETUP(network,SG_NETWORK_MAX_IDX,NULL);
+
+#ifdef LINUX
+static regex_t network_io_rx;
+#define RX_MATCH_COUNT (8+1)
+#endif
+
+sg_error
+sg_network_init_comp(unsigned id) {
+        GLOBAL_SET_ID(network,id);
+
+#ifdef LINUX
+        if( regcomp( &amp;network_io_rx, ..., REG_EXTENDED)!=0) {
+                return sg_set_error(SG_ERROR_PARSE, NULL);
+        }
+#endif
+
+        return SG_ERROR_NONE;
+}
+
+void
+sg_network_destroy_comp(void) {
+#ifdef LINUX
+        regfree(&amp;network_io_rx);
+#endif
+}
+
+EASY_COMP_CLEANUP_FN(network,SG_NETWORK_MAX_IDX)
+        </pre></div></div><p><br class="example-break">
+    </p><div class="refsect2"><a name="idm77"></a><h3>MACROS to work with the component manager</h3><p>
+        To simplify working with the component management functions,
+        some preprocessor macros are available. They are shown here as
+        if they were functions to ease understanding.
+      </p><p>
+        </p><div class="funcsynopsis"><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">DEFAULT_INIT_COMP</b>(</code></td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">...</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;<br><code><var class="pdparam">...</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EASY_COMP_SETUP</b>(</code></td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">nvect</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">...</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;<br><code>size_t <var class="pdparam">nvect</var></code>;<br><code><var class="pdparam">...</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EXTENDED_COMP_SETUP</b>(</code></td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">nvect</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">...</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;<br><code>size_t <var class="pdparam">nvect</var></code>;<br><code><var class="pdparam">...</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">GLOBAL_SET_ID</b>(</code></td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">id</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;<br><code>unsigned int <var class="pdparam">id</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">struct sg_##comp##_glob *<b class="fsfunc">GLOBAL_GET_TLS</b>(</code></td><td><var class="pdparam">comp</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EASY_COMP_INIT_FN</b>(</code></td><td><var class="pdparam">comp</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EASY_COMP_DESTROY_FN</b>(</code></td><td><var class="pdparam">comp</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EASY_COMP_CLEANUP_FN</b>(</code></td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">nvect</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">comp</var></code>;<br><code>size_t <var class="pdparam">nvect</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EASY_COMP_ACCESS</b>(</code></td><td><var class="pdparam">fn</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">stat</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">idx</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">fn</var></code>;<br><code>identifier <var class="pdparam">comp</var></code>;<br><code>identifier <var class="pdparam">stat</var></code>;<br><code>size_t <var class="pdparam">idx</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">MULTI_COMP_ACCESS</b>(</code></td><td><var class="pdparam">fn</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">stat</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">idx</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">fn</var></code>;<br><code>identifier <var class="pdparam">comp</var></code>;<br><code>identifier <var class="pdparam">stat</var></code>;<br><code>size_t <var class="pdparam">idx</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">EASY_COMP_DIFF</b>(</code></td><td><var class="pdparam">fn</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">getfn</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">stat</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">diffidx</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">nowidx</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">fn</var></code>;<br><code>identifier <var class="pdparam">getfn</var></code>;<br><code>identifier <var class="pdparam">comp</var></code>;<br><code>identifier <var class="pdparam">stat</var></code>;<br><code>size_t <var class="pdparam">diffidx</var></code>;<br><code>size_t <var class="pdparam">nowidx</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">MULTI_COMP_DIFF</b>(</code></td><td><var class="pdparam">fn</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">getfn</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">comp</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">stat</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">diffidx</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">nowidx</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>identifier <var class="pdparam">fn</var></code>;<br><code>identifier <var class="pdparam">getfn</var></code>;<br><code>identifier <var class="pdparam">comp</var></code>;<br><code>identifier <var class="pdparam">stat</var></code>;<br><code>size_t <var class="pdparam">diffidx</var></code>;<br><code>size_t <var class="pdparam">nowidx</var></code>;</div><div class="funcprototype-spacer"> </div></div><p>
+      </p><p>
+        <code class="function">EASY_COMP_SETUP</code>() cares about anything to be
+        automatically done for instantiating a component information
+        structure for the specified component <em class="parameter"><code>comp</code></em>.
+        The created TLS storage structure will hold
+        <em class="parameter"><code>nvect</code></em> pointer elements and that's it.
+        All initialisation, destruction and cleanup-routines are created
+        as needed using <code class="function">EASY_COMP_INIT_FN</code>(),
+        <code class="function">EASY_COMP_DESTROY_FN</code>() and
+        <code class="function">EASY_COMP_CLEANUP_FN</code>(). After the amount of
+        required vector pointers to be stored the list of required mutexes
+        must be specified, finished with a NULL pointer.
+      </p><p>
+        <code class="function">EXTENDED_COMP_SETUP</code>() cares about anything
+        to be automatically done for instantiating an component information
+        structure for the specified component <em class="parameter"><code>comp</code></em>
+        but the required defintion of the initialisation, destruction and
+        cleanup routines. The created TLS storage structure will hold
+        <em class="parameter"><code>nvect</code></em> pointer elements and that's it. After
+        the amount of required vector pointers to be stored, the list of
+        required mutexes must be specified, finished with a NULL pointer.
+        All standard routines can be created semi-automatically using
+        <code class="function">EASY_COMP_INIT_FN</code>(),
+        <code class="function">EASY_COMP_DESTROY_FN</code>() and
+        <code class="function">EASY_COMP_CLEANUP_FN</code>().
+      </p><p>
+        <code class="function">DEFAULT_INIT_COMP</code>() just declares the
+        prototypes for the initialisation, destruction and cleanup routines,
+        defines the initialisation status buffer, lock-names list and
+        finally fills the component initialisation structure.
+        Use this when your TLS storage contains not only vector pointers.
+      </p><p>
+        <code class="function">GLOBAL_GET_TLS</code>() returns the pointer to the
+        component's <span class="emphasis"><em>thread local storage</em></span>.
+      </p><p>
+        <code class="function">GLOBAL_SET_ID</code>() stores the component
+        identifier, required eg. to access its TLS.
+      </p><p>
+        <code class="function">EASY_COMP_INIT_FN</code>() defines a default
+        component initialisation routine. It stores the component
+        identifier and returns with <span class="errorcode">SG_ERROR_NONE</span>.
+      </p><p>
+        <code class="function">EASY_COMP_DESTROY_FN</code>() defines a default
+        component destructor, called at the end of the entire process
+        (or when the last <code class="function">sg_shutdown</code>() is called).
+        The default destructor does nothing and usually an individual
+        initialisation routine requires an individual destructor, too.
+      </p><p>
+        <code class="function">EASY_COMP_CLEANUP_FN</code>() defines a default
+        TLS cleanup routine, always called when a thread ends to free
+        vectors held in <span class="emphasis"><em>thread local storage</em></span>.
+      </p><p>
+        <code class="function">EASY_COMP_ACCESS</code>() defines accessors to a
+        specific statistic containing one element provided by the
+        component: the functions
+        <code class="function">fn</code>() and the <code class="function">fn##_r</code>().
+        The following function must exists:
+        </p><div class="funcsynopsis"><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">fn##_int</b>(</code></td><td><var class="pdparam">name##_vect</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_vector *<var class="pdparam">name##_vect</var></code>;</div><div class="funcprototype-spacer"> </div></div><p>
+        It accesses the vector idx from TLS of component
+        <em class="parameter"><code>comp</code></em> and returns sg_##name##_stats.
+        It manages all standard things like memory and error management,
+        return value etc.
+      </p><p>
+        <code class="function">EASY_COMP_DIFF</code>() returns the difference between
+        the two statistic collection runs. The variant dealing with statgrab
+        owned statistics return the difference between the content currently
+        in the vector specified by <em class="parameter"><code>nowidx</code></em> and the
+        resulting vector of <code class="function">getfn</code>(). The result is
+        stored in the vector <em class="parameter"><code>diffidx</code></em>. If there is no
+        current result, simply the result of <code class="function">getfn</code>()
+        is returned.
+      </p><p>
+        <code class="function">MULTI_COMP_ACCESS</code>() defines accessors to a
+        specific statistic containing 0..n elements provided by the
+        component: the functions
+        <code class="function">fn</code>() and the <code class="function">fn##_r</code>().
+        The following function must exists:
+        </p><div class="funcsynopsis"><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">fn##_int</b>(</code></td><td><var class="pdparam">name##_vect</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>sg_vector **<var class="pdparam">name##_vect</var></code>;</div><div class="funcprototype-spacer"> </div></div><p>
+        It accesses the vector idx from TLS of component
+        <em class="parameter"><code>comp</code></em> and returns sg_##name##_stats.
+        It manages all standard things like memory and error anagement,
+        return values, <em class="parameter"><code>entries</code></em> update, etc.
+      </p><p>
+        <code class="function">MULTI_COMP_DIFF</code>() does the same as
+        <code class="function">EASY_COMP_DIFF</code>() but for vectors with more than
+        one element.
+      </p></div></div><div class="refsect1"><a name="idm250"></a><h2>See Also</h2><span class="simplelist">
+        <span class="citerefentry"><span class="refentrytitle">libstatgrab</span>(3)</span>
+        <span class="citerefentry"><span class="refentrytitle">sg_intro</span>(3)</span>
+        <span class="citerefentry"><span class="refentrytitle">sg_set_error</span>(3)</span>
+        <span class="citerefentry"><span class="refentrytitle">sg_comp_init</span>(3)</span>
+        <span class="citerefentry"><span class="refentrytitle">sg_vector_create</span>(3)</span>
+      </span></div><div class="refsect1"><a name="idm269"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+        <a class="ulink" href="http://www.i-scream.org/libstatgrab/" target="_top">
+          http://www.i-scream.org/libstatgrab/
+        </a>
+      </td></tr></table></div></div></body></html>
