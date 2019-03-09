@@ -63,6 +63,7 @@ Language bindings
 * [Perl](https://metacpan.org/release/Unix-Statgrab)
 * [Ruby](https://rubygems.org/gems/statgrab)
 * [Haskell](https://hackage.haskell.org/package/statgrab)
+* [Lua](http://luaforge.net/projects/lua-statgrab/)
 
 Here are links to bindings for higher level languages that provide access to libstatgrab. If you've written a binding for another language, please get in touch so we can add a link here.
 
