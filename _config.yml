@@ -3,3 +3,5 @@ title: libstatgrab
 description: a cross platform library for accessing system statistics
 github:
   repository_url: https://github.com/libstatgrab/
+plugins:
+  - jekyll-redirect-from
