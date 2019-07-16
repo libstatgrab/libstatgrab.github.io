@@ -24,19 +24,19 @@ The library part of libstatgrab is licensed under the GNU LGPL, but the tools an
 Current version
 ---------------
 
-The current release is [libstatgrab 0.91](https://github.com/libstatgrab/libstatgrab/releases/tag/LIBSTATGRAB_0_91) released on 11 July 2014.
+The current release is [libstatgrab 0.92](https://github.com/libstatgrab/libstatgrab/releases/tag/LIBSTATGRAB_0_92) released on 16 July 2019.
 
-It includes a number of bugfixes and new features but is API compatible with 0.90.
+This release mostly includes bugfixes and is API and ABI compatible with 0.91.
 
-* Use `/proc/mounts` on Linux where available.
-* Add a new field named `device_canonical` to the filesystem statistics.
-* Fix list miscounting in `sg_set_valid_filesystems`.
-* Fix buffer overrun when dealing with a larger number of processes.
-* Fix divide by zero display problem in saidar.
-* When logging with log4cplus is enabled, properties files are installed in to `${prefix}/etc`.
-* Add Graphite output support in statgrab.
-
-A full list of changes can be found in the [NEWS](https://github.com/libstatgrab/libstatgrab/blob/LIBSTATGRAB_0_91/NEWS) file contained within the release.
+* Fix various file descriptor leaks.
+* On Linux, read process thread name from comm where available (fixes FreeScale ARM BSP).
+* Add more process stat information on MacOS/Darwin.
+* Fix build on Alpine Linux and NetBSD 8.
+* Fix build on FreeBSD 12 without COMPAT_FREEBSD11.
+* Improve collection of data for non-standard Solaris interfaces.
+* Improve detection of interface link status on Solaris.
+* Various configure and build fixes.
+* Ensure modern log4cplus is used correctly.
 
 Downloading
 -----------
