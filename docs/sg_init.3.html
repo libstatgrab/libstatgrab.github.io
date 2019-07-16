@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_init</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_init"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_init, sg_snapshot, sg_shutdown, sg_drop_privileges &#8212; initialise libstatgrab</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_init</b>(</code></td><td><var class="pdparam">ignore_init_errors</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>int <var class="pdparam">ignore_init_errors</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_snapshot</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_shutdown</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_drop_privileges</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm32"></a><h2>Description</h2><p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>sg_init</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry"><a name="sg_init"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sg_init, sg_snapshot, sg_shutdown, sg_drop_privileges &#8212; initialise libstatgrab</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="funcsynopsis"><pre class="funcsynopsisinfo">#include &lt;statgrab.h&gt;</pre><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">void <b class="fsfunc">sg_log_init</b>(</code></td><td><var class="pdparam">properties_pfx</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">env_name</var>, </td><td> </td></tr><tr><td> </td><td><var class="pdparam">argv0</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>const char *<var class="pdparam">properties_pfx</var></code>;<br><code>const char *<var class="pdparam">env_name</var></code>;<br><code>const char *<var class="pdparam">argv0</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_init</b>(</code></td><td><var class="pdparam">ignore_init_errors</var><code>)</code>;</td><td> </td></tr></table><div class="paramdef-list"><code>int <var class="pdparam">ignore_init_errors</var></code>;</div><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_snapshot</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_shutdown</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div><table border="0" class="funcprototype-table" summary="Function synopsis" style="cellspacing: 0; cellpadding: 0;"><tr><td><code class="funcdef">sg_error <b class="fsfunc">sg_drop_privileges</b>(</code></td><td><code>)</code>;</td><td> </td></tr></table><div class="funcprototype-spacer"> </div></div></div><div class="refsect1"><a name="idm41"></a><h2>Description</h2><p>
       <code class="function">sg_init</code>() either initialises the statgrab
       library and sets the initialisation counter to 1, if not already done,
       or increases the initialisation counter.
@@ -10,6 +10,13 @@
       <code class="function">sg_init</code>() is protected by the mutex named
       "statgrab".
     </p><p>
+      <code class="function">sg_log_init</code>() allows some application-individual
+      logging configuration. It's intended for projects with several applications
+      or commands which might have different appenders.
+      Mind that <code class="function">sg_log_init</code> must be called before
+      <code class="function">sg_init</code>, but after your application initialized
+      logging framework.
+    </p><p>
       <code class="function">sg_snapshot</code>() is Win32 only and will probably disappear.
     </p><p>
       <code class="function">sg_shutdown</code>() decrements the initialisation
@@ -20,13 +27,43 @@
       "statgrab".
     </p><p>
       <code class="function">sg_drop_privileges</code>() drops elevated privileges.
-    </p></div><div class="refsect1"><a name="idm44"></a><h2>Return values</h2><p>
+    </p></div><div class="refsect1"><a name="idm57"></a><h2>Return values</h2><p>
       All functions return a statgrab error code. Either
       <span class="errorcode">SG_ERROR_NONE</span> when everything was ok or the
       appropriate error code from an constructor/destructor.
-    </p></div><div class="refsect1"><a name="idm48"></a><h2>See Also</h2><span class="simplelist">
+    </p></div><div class="refsect1"><a name="idm61"></a><h2>Example</h2><p>
+      Typical initialization/deinitialization sequence when using with log4cplus:
+      </p><pre class="programlisting">
+static void *l4cplus_initializer;
+
+static void
+cleanup_logging(void)
+{
+       log4cplus_deinitialize(l4cplus_initializer);
+}
+
+int
+main(int argc, char const *argv[])
+{
+    l4cplus_initializer = log4cplus_initialize();
+    atexit((void (*)(void))cleanup_logging);
+
+    sg_log_init("saidar", "SAIDAR_LOG_PROPERTIES", argv[0]);
+    sg_init(1);
+    if(sg_drop_privileges() != 0) {
+	die("Failed to drop setuid/setgid privileges");
+    }
+
+    do_something();
+
+    sg_shutdown();
+
+    return 0;
+}
+      </pre><p>
+    </p></div><div class="refsect1"><a name="idm65"></a><h2>See Also</h2><span class="simplelist">
         <span class="citerefentry"><span class="refentrytitle">statgrab</span>(3)</span>
-      </span></div><div class="refsect1"><a name="idm55"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
+      </span></div><div class="refsect1"><a name="idm72"></a><h2>Website</h2><table border="0" summary="Simple list" class="simplelist"><tr><td>
         <a class="ulink" href="https://libstatgrab.org/" target="_top">
           https://libstatgrab.org/
         </a>
