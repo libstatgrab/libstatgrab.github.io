@@ -20,7 +20,7 @@
     </p><p>
       <code class="function">sg_vector_resize</code>() increases or decreases the
       amount of allocated elements in the specified vector. The amount of
-      allocated elements is always a multiple of the intialisation parameter
+      allocated elements is always a multiple of the initialisation parameter
       <em class="parameter"><code>block_size</code></em>. In the special case,
       <code class="function">sg_vector_resize</code>() is called with 0 in
       argument <em class="parameter"><code>new_count</code></em>, the vector is freed after
@@ -197,7 +197,7 @@ VECTOR_INIT_INFO_FULL_INIT(sg_disk_io_stats);
         NULL otherwise.
         When <code class="function">VECTOR_CREATE_OR_RESIZE</code>() returns a NULL
         pointer and <em class="parameter"><code>new_count</code></em> is not equal to 0 (zero),
-        the intructions from the macro <code class="function">VECTOR_UPDATE_ERROR_CLEANUP</code>
+        the instructions from the macro <code class="function">VECTOR_UPDATE_ERROR_CLEANUP</code>
         are executed to cleanup before returning from current subroutine with
         the error which has been occurred.
       </p><p>

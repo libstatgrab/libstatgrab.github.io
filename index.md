@@ -24,19 +24,17 @@ The library part of libstatgrab is licensed under the GNU LGPL, but the tools an
 Current version
 ---------------
 
-The current release is [libstatgrab 0.92](https://github.com/libstatgrab/libstatgrab/releases/tag/LIBSTATGRAB_0_92) released on 16 July 2019.
+The current release is [libstatgrab 0.92.1](https://github.com/libstatgrab/libstatgrab/releases/tag/LIBSTATGRAB_0_92_1) released on 27 July 2021.
 
-This release mostly includes bugfixes and is API and ABI compatible with 0.91.
+This release includes minor bugfixes and is API and ABI compatible with 0.92.
 
-* Fix various file descriptor leaks.
-* On Linux, read process thread name from comm where available (fixes FreeScale ARM BSP).
-* Add more process stat information on MacOS/Darwin.
-* Fix build on Alpine Linux and NetBSD 8.
-* Fix build on FreeBSD 12 without COMPAT_FREEBSD11.
-* Improve collection of data for non-standard Solaris interfaces.
-* Improve detection of interface link status on Solaris.
-* Various configure and build fixes.
-* Ensure modern log4cplus is used correctly.
+* Fix build with autoconf 2.70+.
+* Fix CPU stats on older Linux kernels.
+* Make sure to count processes in an unknown state.
+* Check if -ltinfo is needed when linking ncurses.
+* Fixes to build when cross-compiling.
+* Fix build with -DNDEBUG.
+* Handle vmmeter changes in FreeBSD 12.
 
 Downloading
 -----------
