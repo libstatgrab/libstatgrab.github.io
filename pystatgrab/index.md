@@ -23,7 +23,7 @@ pystatgrab is licensed under the GNU LGPL.
 Current version
 ---------------
 
-The current release is [pystatgrab 0.7.2](https://github.com/libstatgrab/pystatgrab/releases/tag/PYSTATGRAB_0_7_2) released on 24 December 2023.
+The current release is [pystatgrab 0.7.3](https://github.com/libstatgrab/pystatgrab/releases/tag/PYSTATGRAB_0_7_3) released on 03 June 2024.
 
 It regenerated the library using a newer version of Cython which provided support for more recent Python 3 versions.
 
