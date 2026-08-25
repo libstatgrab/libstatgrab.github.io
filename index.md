@@ -57,11 +57,10 @@ Language bindings
 -----------------
 
 * [Python](/pystatgrab/)
-* [PHP](https://pecl.php.net/package/statgrab)
+* PHP [PIE](https://github.com/iliaal/statgrab) [PECL](https://pecl.php.net/package/statgrab)
 * [Perl](https://metacpan.org/release/Unix-Statgrab)
 * [Ruby](https://rubygems.org/gems/statgrab)
 * [Haskell](https://hackage.haskell.org/package/statgrab)
-* [Lua](http://luaforge.net/projects/lua-statgrab/)
 
 Here are links to bindings for higher level languages that provide access to libstatgrab. If you've written a binding for another language, please get in touch so we can add a link here.
 
@@ -75,7 +74,8 @@ Packages of libstatgrab
 * [Ubuntu](https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=statgrab)
 * [NetBSD/pkgsrc](http://pkgsrc.se/devel/libstatgrab)
 * [openSUSE](https://software.opensuse.org/search?utf8=%E2%9C%93&q=libstatgrab)
-* [OpenBSD](https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/sysutils/libstatgrab/)
+* [OpenBSD](https://cvsweb.openbsd.org/ports/sysutils/libstatgrab)
+* [Conda](https://github.com/conda-forge/libstatgrab-feedstock)
 
 These are various pre-packaged versions of libstatgrab that you can get for your favourite operating system. If we've missed any out, please let us know.
 
